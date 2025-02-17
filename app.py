@@ -14,13 +14,7 @@ df = pd.read_csv(url)
 df = df.drop(columns=["Coluna 19", "Coluna 20", "Coluna 21"], errors='ignore')
 
 # Função para definir a faixa etária
-def definir_faixa_etaria(idade):
-    if 20 < idade <= 35:
-        return "Entre 20 e 35 anos"
-    elif 35 < idade <= 50:
-        return "Entre 35 e 50 anos"
-    else:
-        return "Mais que 50 anos"
+definir_faixa_etaria = lambda idade: "Entre 20 e 35 anos" if 20 < idade <= 35 else ("Entre 35 e 50 anos" if 35 < idade <= 50 else "Mais que 50 anos")
 
 if "Idade" in df.columns:
     df["Faixa Etária"] = df["Idade"].apply(definir_faixa_etaria)
@@ -33,7 +27,7 @@ st.dataframe(df.head())
 # Gráfico de distribuição etária
 st.subheader("Distribuição por Faixa Etária")
 if "Faixa Etária" in df.columns:
-    fig, ax = plt.subplots()
+    fig, ax = plt.subplots(figsize=(6,4))
     sns.countplot(x="Faixa Etária", data=df, palette="viridis", ax=ax)
     st.pyplot(fig)
 else:
@@ -42,6 +36,6 @@ else:
 # Pergunta específica do formulário
 st.subheader("Respostas de uma Pergunta Específica")
 pergunta = st.selectbox("Escolha uma pergunta para analisar:", df.columns[1:])
-fig2, ax2 = plt.subplots()
+fig2, ax2 = plt.subplots(figsize=(3,2))
 sns.countplot(y=df[pergunta], order=df[pergunta].value_counts().index, palette="magma", ax=ax2)
 st.pyplot(fig2)
