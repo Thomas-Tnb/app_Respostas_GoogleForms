@@ -8,13 +8,16 @@ url = "https://docs.google.com/spreadsheets/d/1JEsn8iuQw4bXJ4wC1QFsq74GBGQfFz5-F
 # Convertendo para dataframe
 df = pd.read_csv(url)
 
-# Faixa etária 
-if 20 < df["Idade"] <= 35:
-    df["Faixa Etária"] = "Entre 20 e 35 anos"
-elif 35 < df["Idade"] <= 50:
-    df["Faixa Etária"] = "Entre 35 e 50 anos"
-else:
-    df["Faixa Etária"] = "Mais que 50 anos"
+# Função para definir a faixa etária
+def definir_faixa_etaria(idade):
+    if 20 < idade <= 35:
+        return "Entre 20 e 35 anos"
+    elif 35 < idade <= 50:
+        return "Entre 35 e 50 anos"
+    else:
+        return "Mais que 50 anos"
+
+df["Faixa Etária"] = df["Idade"].apply(definir_faixa_etaria)
 
 # Criando Dashboard no Streamlit
 st.title("Dashboard Shopfono")
